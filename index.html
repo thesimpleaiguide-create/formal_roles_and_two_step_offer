@@ -35,7 +35,8 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            overflow-x: hidden;
+            height: 100vh; /* Lock height to full viewport */
+            overflow: hidden; /* Force strict no-scroll */
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
@@ -141,41 +142,46 @@
         .progress-pip.inactive {
             width: 18px;
         }
+
+        /* Custom Scrollbar for Accordion List when clamped */
+        .accordion-scroller::-webkit-scrollbar { width: 5px; }
+        .accordion-scroller::-webkit-scrollbar-track { background: transparent; }
+        .accordion-scroller::-webkit-scrollbar-thumb { background: #DBE2E9; border-radius: 10px; }
     </style>
 </head>
-<body class="p-3 sm:p-5 md:p-8 flex items-center justify-center min-h-screen w-full box-border">
+<body class="p-3 sm:p-5 flex items-center justify-center box-border h-screen w-full">
 
-    <div class="max-w-5xl mx-auto w-full flex flex-col bg-[#FFFFFFEE] p-4 sm:p-6 md:p-8 rounded-2xl border border-[#DBE2E9] shadow-inner bg-[url('Watermark_Background.jpeg')] bg-center bg-cover bg-no-repeat relative">
+    <div class="max-w-5xl mx-auto w-full flex flex-col justify-between h-auto max-h-[90vh] bg-[#FFFFFFEE] p-4 sm:p-6 rounded-2xl border border-[#DBE2E9] shadow-inner bg-[url('Watermark_Background.jpeg')] bg-center bg-cover bg-no-repeat relative overflow-hidden">
         
-        <div class="flex items-center justify-between mb-6 w-full relative z-20">
+        <div class="flex items-center justify-between mb-3.5 w-full relative z-20 shrink-0">
             <span class="inline-flex items-center space-x-1.5 text-[11px] font-bold text-[#005EB8] bg-[#DBE2E9] px-2.5 py-1 rounded-[4px] font-heading uppercase tracking-wider">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
                 <span>Chaperone Framework</span>
             </span>
 
-            <button id="audioToggleBtn" type="button" class="flex items-center space-x-2 cursor-pointer bg-white px-3 py-1.5 rounded-full border border-[#DBE2E9] shadow-sm hover:border-slate-300 transition-all focus:outline-none">
+            <button id="audioToggleBtn" type="button" class="flex items-center space-x-2 cursor-pointer bg-white px-3 py-1 rounded-full border border-[#DBE2E9] shadow-sm hover:border-slate-300 transition-all focus:outline-none">
                 <svg id="speakerIcon" class="w-3.5 h-3.5 text-[#005EB8]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
                 <span class="text-xs font-semibold text-[#0C2340] font-heading">Dr. Lindsay Overview</span>
                 <div id="audioSwitch" class="toggle-switch"></div>
             </button>
         </div>
 
-        <div class="step-display-card p-5 sm:p-7 md:p-8 text-white relative z-20 mb-6 flex flex-col justify-between min-h-[220px] sm:min-h-[200px]">
+        <div class="step-display-card p-4 sm:p-5 md:p-6 text-white relative z-20 mb-3.5 flex flex-col justify-between shrink-0 min-h-[160px] sm:min-h-[140px]">
             
             <div>
-                <div class="flex items-center space-x-3 mb-2.5">
+                <div class="flex items-center space-x-2.5 mb-2">
                     <span id="stepNumberBadge" class="text-xl sm:text-2xl font-extrabold text-[#59CBE8] font-heading">1</span>
-                    <h2 id="stepTitle" class="text-base sm:text-lg md:text-xl font-bold font-heading text-white tracking-wide">
+                    <h2 id="stepTitle" class="text-sm sm:text-base font-bold font-heading text-white tracking-wide">
                         Step 1 — At booking or when the need is identified
                     </h2>
                 </div>
 
-                <p id="stepDescription" class="text-xs sm:text-sm md:text-base text-slate-200 leading-relaxed font-normal pl-7 sm:pl-9">
+                <p id="stepDescription" class="text-[11px] sm:text-xs md:text-sm text-slate-200 leading-relaxed font-normal pl-7 sm:pl-9">
                     Explain that a chaperone can be provided, record the patient's request or preference where appropriate, and make arrangements early enough to avoid unnecessary delay or embarrassment.
                 </p>
             </div>
 
-            <div class="flex items-center justify-between pt-4 mt-4 border-t border-white/15">
+            <div class="flex items-center justify-between pt-3 mt-3 border-t border-white/15 shrink-0">
                 <div class="flex items-center space-x-2">
                     <div id="pip1" class="progress-pip active"></div>
                     <div id="pip2" class="progress-pip inactive"></div>
@@ -183,65 +189,65 @@
                     <div id="pip4" class="progress-pip inactive"></div>
                 </div>
 
-                <div class="flex items-center space-x-2">
-                    <button id="prevBtn" onclick="navigateStep(-1)" class="hidden px-3.5 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-heading font-bold transition-all flex items-center space-x-1">
+                <div class="flex items-center space-x-1.5">
+                    <button id="prevBtn" onclick="navigateStep(-1)" class="hidden px-3.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white text-[11px] sm:text-xs font-heading font-bold transition-all flex items-center space-x-1 focus:outline-none">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                         <span>Back</span>
                     </button>
-                    <button id="nextBtn" onclick="navigateStep(1)" class="px-4 py-1.5 rounded-lg bg-white text-[#0C2340] hover:bg-slate-100 text-xs sm:text-sm font-heading font-bold transition-all shadow-sm">
+                    <button id="nextBtn" onclick="navigateStep(1)" class="px-3.5 py-1 rounded-lg bg-white text-[#0C2340] hover:bg-slate-100 text-[11px] sm:text-xs font-heading font-bold transition-all shadow-sm focus:outline-none">
                         Next
                     </button>
                 </div>
             </div>
         </div>
 
-        <div class="w-full flex flex-col space-y-3 relative z-20">
+        <div class="w-full flex flex-col space-y-2.5 relative z-20 accordion-scroller max-h-[30vh] overflow-y-auto">
             
-            <div class="clean-accordion p-4 sm:p-4.5" onclick="toggleAccordion(this)">
+            <div class="clean-accordion p-3.5 sm:p-4" onclick="toggleAccordion(this)">
                 <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
-                        <span class="w-6 h-6 rounded-full bg-[#DBE2E9] text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center shrink-0">?</span>
-                        <h3 class="font-bold text-[#0C2340] text-xs sm:text-sm md:text-base font-heading">Who can be a formal chaperone?</h3>
+                    <div class="flex items-center space-x-2.5">
+                        <span class="w-5.5 h-5.5 rounded-full bg-[#DBE2E9] text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center shrink-0">?</span>
+                        <h3 class="font-bold text-[#0C2340] text-[11px] sm:text-xs md:text-sm font-heading leading-tight">Who can be a formal chaperone?</h3>
                     </div>
-                    <svg class="chevron-icon w-4 h-4 shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg class="chevron-icon w-3.5 h-3.5 shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
                 <div class="details-wrapper">
                     <div class="details-content">
-                        <div class="pt-3 mt-2.5 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
+                        <div class="pt-2.5 mt-2 border-t border-slate-100 text-[11px] sm:text-xs text-[#333F48] leading-relaxed">
                             A formal chaperone should be appropriately trained, suitable for the role, DBS-checked where required by local arrangements, impartial, aware of their safeguarding responsibilities, and present throughout the examination.
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="clean-accordion p-4 sm:p-4.5" onclick="toggleAccordion(this)">
+            <div class="clean-accordion p-3.5 sm:p-4" onclick="toggleAccordion(this)">
                 <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
-                        <span class="w-6 h-6 rounded-full bg-[#DBE2E9] text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center shrink-0">✓</span>
-                        <h3 class="font-bold text-[#0C2340] text-xs sm:text-sm md:text-base font-heading">Respecting preferences</h3>
+                    <div class="flex items-center space-x-2.5">
+                        <span class="w-5.5 h-5.5 rounded-full bg-[#DBE2E9] text-[#005EB8] font-heading font-bold text-xs flex items-center justify-center shrink-0">✓</span>
+                        <h3 class="font-bold text-[#0C2340] text-[11px] sm:text-xs md:text-sm font-heading leading-tight">Respecting preferences</h3>
                     </div>
-                    <svg class="chevron-icon w-4 h-4 shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg class="chevron-icon w-3.5 h-3.5 shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
                 <div class="details-wrapper">
                     <div class="details-content">
-                        <div class="pt-3 mt-2.5 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
+                        <div class="pt-2.5 mt-2 border-t border-slate-100 text-[11px] sm:text-xs text-[#333F48] leading-relaxed">
                             Patients may have preferences relating to sex, religion, culture, trauma history, disability, communication needs, or privacy. Staff should respond sensitively, consider reasonable adjustments, and avoid penalising a patient for requesting a safe alternative.
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="clean-accordion p-4 sm:p-4.5" onclick="toggleAccordion(this)">
+            <div class="clean-accordion p-3.5 sm:p-4" onclick="toggleAccordion(this)">
                 <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
-                        <span class="w-6 h-6 rounded-full bg-[#FFE5D9] text-[#FE5000] font-heading font-bold text-xs flex items-center justify-center shrink-0">!</span>
-                        <h3 class="font-bold text-[#0C2340] text-xs sm:text-sm md:text-base font-heading">Urgent exceptions</h3>
+                    <div class="flex items-center space-x-2.5">
+                        <span class="w-5.5 h-5.5 rounded-full bg-[#FFE5D9] text-[#FE5000] font-heading font-bold text-xs flex items-center justify-center shrink-0">!</span>
+                        <h3 class="font-bold text-[#0C2340] text-[11px] sm:text-xs md:text-sm font-heading leading-tight">Urgent exceptions</h3>
                     </div>
-                    <svg class="chevron-icon w-4 h-4 shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg class="chevron-icon w-3.5 h-3.5 shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
                 <div class="details-wrapper">
                     <div class="details-content">
-                        <div class="pt-3 mt-2.5 border-t border-slate-100 text-xs sm:text-sm text-[#333F48] leading-relaxed">
+                        <div class="pt-2.5 mt-2 border-t border-slate-100 text-[11px] sm:text-xs text-[#333F48] leading-relaxed">
                             In a genuinely life-threatening emergency, immediate clinical care may need to take priority. The reason for proceeding without usual arrangements should be clearly recorded in the medical notes.
                         </div>
                     </div>
